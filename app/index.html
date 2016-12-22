@@ -58,7 +58,13 @@
       <div ng-show="result.length && main.channel[result[0].channelId]">
         <h2>
           <a ng-href="https://abema.tv/now-on-air/{{result[0].channelId}}" target="_blank"
-             name="{{result[0].channelId}}">{{ result[0].channelId }}</a>
+             name="{{result[0].channelId}}">
+            <div style="height: 34px; padding: 0 10px; background-color: #000; color: #fff; display: inline-block;">
+            <img ng-src="https://hayabusa.io/abema/channels/logo/{{result[0].channelId}}.w80.h30.webp?width=80&height=30"
+                 alt="{{result[0].channelId}}">
+              {{ result[0].channelId }}
+            </div>
+          </a>
         </h2>
         <table class="table table-bordered">
           <tr ng-repeat="slot in result">
