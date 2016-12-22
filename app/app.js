@@ -46,6 +46,18 @@ angular.module('myApp', ["ui.bootstrap"])
       return result;
     };
 
+    that.dispStartAt = function (firstStartAt, curStartAt) {
+      var fmt = firstStartAt == curStartAt ? 'M/d h:mm' : 'h:mm';
+      return that.getDateStringFromUnixTimeSeconds(curStartAt, fmt);
+    };
+
+    that.isNowOnAir = function (startAt, endAt) {
+      var start = new Date(startAt * 1000);
+      var end = new Date(endAt * 1000);
+      var now = new Date();
+      return (now >= start && now <= end);
+    };
+
     that.doSearch = function () {
       var yyyyMMdd = that.getDateString(that.target_date, 'yyyyMMdd');
       var url = 'http://localhost:63342/ng-abema-schedule/testdata/examples.json';

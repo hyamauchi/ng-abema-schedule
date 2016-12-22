@@ -66,12 +66,15 @@
             </div>
           </a>
         </h2>
-        <table class="table table-bordered">
-          <tr ng-repeat="slot in result">
+        <table class="table table-bordered table-hover table-striped">
+          <tr ng-repeat="slot in result"
+              ng-class="{danger: main.isNowOnAir(slot.startAt, slot.endAt)}">
             <!--ng-style="{backgroundColor: slot.programs[0].series.themeColor.background}">-->
-            <td>{{ main.getDateStringFromUnixTimeSeconds(slot.startAt, 'M/d h:mm') }}
-              <br /><span>-</span><br />
-              {{ main.getDateStringFromUnixTimeSeconds(slot.endAt, 'h:mm') }}
+            <td>
+              <strong>{{ main.dispStartAt(result[0].startAt, slot.startAt) }}</strong>
+              <div ng-show="main.isNowOnAir(slot.startAt, slot.endAt)">
+                <span class="label label-danger">NowOnAir</span>
+              </div>
             </td>
             <td>
               <a ng-href="https://abema.tv/channels/{{result[0].channelId}}/slots/{{slot.id}}"
