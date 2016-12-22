@@ -12,8 +12,7 @@
   <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
   <!-- 日本語ロケールをロードしておくことでカレンダーの曜日表示が日本語になる -->
   <script src="//cdnjs.cloudflare.com/ajax/libs/angular-i18n/1.5.8/angular-locale_ja-jp.min.js"></script>
-  <!--<script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui/0.4.0/angular-ui.min.js"></script>-->
-  <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.10.0/ui-bootstrap-tpls.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.3.1/ui-bootstrap-tpls.min.js"></script>
   <script src="app.js"></script>
 </head>
 <body>
@@ -26,11 +25,13 @@
         <button type="text"
                 class="btn btn-default"
                 ng-model="main.target_date"
-                datepicker-popup
+                uib-datepicker-popup="yyyy-MM-dd"
                 is-open="main.datePickerOpen"
                 ng-click="main.toggleDatePicker($event)"
                 ng-change="main.doSearch()"
-                ng-init="main.doSearch()">
+                ng-init="main.doSearch()"
+                current-text="今日" clear-text="クリア" close-text="閉じる"
+                datepicker-options="main.datepickerOptions">
           {{main.target_date | date: 'yyyy-MM-dd'}}
         </button>
       </div>

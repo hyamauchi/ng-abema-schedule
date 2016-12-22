@@ -1,17 +1,12 @@
 angular.module('myApp', ["ui.bootstrap"])
-  .config(["datepickerConfig", "datepickerPopupConfig", "timepickerConfig",
-    function (datepickerConfig, datepickerPopupConfig, timepickerConfig) {
-      datepickerConfig.showWeeks = false; // 週番号（日本では馴染みが薄い）を非表示にする
-      datepickerConfig.dayTitleFormat = "yyyy年 MMMM";
-      datepickerPopupConfig.currentText = "本日";
-      datepickerPopupConfig.clearText = "消去";
-      datepickerPopupConfig.toggleWeeksText = "週番号";
-      datepickerPopupConfig.closeText = "閉じる";
-      timepickerConfig.showMeridian = false; // 時刻を24時間表示にする（デフォルトでは12時間表示）
-    }])
   .controller('MainController', ['$http', function ($http) {
 
     var that = this;
+
+    that.datepickerOptions = {
+      showWeeks: false,
+      formatDayTitle: "yyyy年 M月"
+    }
 
     that.channel = {};
     that.checkAll = function (bool) {
