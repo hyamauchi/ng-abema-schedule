@@ -1,0 +1,11 @@
+.date input {
+    text-align: center;
+}
+
+.datepicker-months input {
+    width: 70px;
+}
+
+.datepicker-days input {
+    width: 100px;
+}

@@ -8,19 +8,40 @@
   <title>AbemaTV 番組表</title>
   <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
   <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="app.css">
   <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+  <!-- 日本語ロケールをロードしておくことでカレンダーの曜日表示が日本語になる -->
+  <script src="//cdnjs.cloudflare.com/ajax/libs/angular-i18n/1.5.8/angular-locale_ja-jp.min.js"></script>
+  <!--<script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui/0.4.0/angular-ui.min.js"></script>-->
+  <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.10.0/ui-bootstrap-tpls.min.js"></script>
   <script src="app.js"></script>
 </head>
 <body>
-<h1>AbemaTV 番組表</h1>
 <div ng-controller="MainController as main">
 
-  <!--<form ng-submit="main.doSearch()" name="myForm">-->
-    <!--<input type="text" ng-model="main.query">-->
-    <!--<input type="submit" value="検索する" ng-disabled="myForm.$invalid">-->
-  <!--</form>-->
-  <div ng-init="main.doSearch()" ng-show="main.results.length">
-    チャンネル数: {{ main.results.length }}
+  <div>
+    <h1 style="display: inline-block;">AbemaTV 番組表</h1>
+    <div class="date datepicker-days period-start" style="display: inline-block;">
+      <div>
+        <button type="text"
+                class="btn btn-default"
+                ng-model="main.target_date"
+                datepicker-popup
+                is-open="main.datePickerOpen"
+                ng-click="main.toggleDatePicker($event)"
+                ng-change="main.doSearch()"
+                ng-init="main.doSearch()">
+          {{main.target_date | date: 'yyyy-MM-dd'}}
+        </button>
+      </div>
+    </div>
+    <div ng-show="main.results.length" style="display: inline-block;">
+      <span>チャンネル数: {{ main.results.length }}</span>
+      <div class="btn-group" role="group">
+        <button type="button" class="btn btn-default" ng-click="main.checkAll(true)">全てを選択</button>
+        <button type="button" class="btn btn-default" ng-click="main.checkAll(false)">全てを解除</button>
+      </div>
+    </div>
   </div>
   <section ng-show="main.keys.length">
     <ul class="list-inline">
@@ -29,8 +50,6 @@
         <label for="channel_{{key}}"><a ng-href="#{{key}}">{{key}}</a></label>
       </li>
     </ul>
-    <input type="button" ng-click="main.checkAll(true)" value="全てを選択">
-    <input type="button" ng-click="main.checkAll(false)" value="全てを解除">
   </section>
 
   <ul ng-show="main.results.length" style="list-style: none; padding: 0;">
@@ -43,9 +62,9 @@
         <table class="table table-bordered">
           <tr ng-repeat="slot in result">
             <!--ng-style="{backgroundColor: slot.programs[0].series.themeColor.background}">-->
-            <td>{{ main.getDateFromUnixTimeSeconds(slot.startAt, 'M/d h:mm') }}
+            <td>{{ main.getDateStringFromUnixTimeSeconds(slot.startAt, 'M/d h:mm') }}
               <br /><span>-</span><br />
-              {{ main.getDateFromUnixTimeSeconds(slot.endAt, 'h:mm') }}
+              {{ main.getDateStringFromUnixTimeSeconds(slot.endAt, 'h:mm') }}
             </td>
             <td>
               <a ng-href="https://abema.tv/channels/{{result[0].channelId}}/slots/{{slot.id}}"
