@@ -10,6 +10,7 @@
   <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
   <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.3.1/ui-bootstrap-tpls.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.11/ngStorage.js"></script>
   <script src="box.js"></script>
   <link rel="stylesheet" href="box.css">
   <link rel="stylesheet" href="css/styles.css">
@@ -19,16 +20,20 @@
 
   <nav class="navbar navbar-fixed-top" role="navigation">
     <div ng-init="main.doSearch()">
-      <ul class="list-inline">
-        <li ng-repeat="key in main.keys">
-          <span style="cursor: pointer;" class="label label-primary" ng-show="false"
-                ng-click="main.switchChannel(key)">{{key}}</span>
-        </li>
-      </ul>
+      <div data-toggle="buttons">
+        <label ng-repeat="key in main.keys"
+               class="btn btn-default btn-xs" ng-class="{active: main.dispChannel[key]}">
+          <input type="checkbox" id="channel_{{key}}" ng-model="main.dispChannel[key]"
+           ng-click="main.saveFavorites()" />
+          {{key}}
+        </label>
+        <button type="button" class="btn btn-primary btn-xs" ng-click="main.checkAll(true)">全てを選択</button>
+        <button type="button" class="btn btn-warning btn-xs" ng-click="main.checkAll(false)">全てを解除</button>
+      </div>
     </div>
   </nav>
 
-  <div class="my-container" style="padding-top: 30px;" ng-show="main.results.length">
+  <div class="my-container" style="padding-top: 46px;" ng-show="main.results.length">
     <div class="parent-slots">
       <div class="inline-slots" style="width: 20px;">
         <div style="height: 34px;"></div>
@@ -58,44 +63,42 @@
         <div class="hour-box"><strong>23</strong></div>
       </div>
 
-      <div class="inline-slots" ng-repeat="result in main.results" style="width: 160px;">
-        <div ng-show="result.length">
-        <!--<div ng-show="result.length && main.current_channel == result[0].channelId">-->
-          <div>
-            <a ng-href="https://abema.tv/now-on-air/{{result[0].channelId}}" target="_blank"
-               name="{{result[0].channelId}}">
-              <div style="height: 34px; padding: 0 10px; background-color: #000; color: #fff; display: inline-block;">
-                <img ng-src="https://hayabusa.io/abema/channels/logo/{{result[0].channelId}}.w80.h30.webp?width=80&height=30"
-                     alt="{{result[0].channelId}}">
-                <!--<span class="h4">{{ result[0].channelId }}</span>-->
-              </div>
-            </a>
-          </div>
-          <div class="table table-hover table-striped"
-               style="background-color: #eee;">
-            <div class="slot-box"
-                 ng-repeat="slot in result"
-                 ng-style="main.channel[slot.channelId][$index]"
-                 ng-class="{danger: main.isNowOnAir(slot.startAt, slot.endAt)}">
-              <!--ng-style="{backgroundColor: slot.programs[0].series.themeColor.background}">-->
-              <a ng-href="https://abema.tv/channels/{{result[0].channelId}}/slots/{{slot.id}}"
-                 target="_blank" title="{{slot.title}}" style="text-decoration: none;">
-
-              <div style="margin-left: 2px; color: #6fb900; font-size: 12px; font-family: Helvetica">
-                <span>{{ main.channel[slot.channelId][$index].mm }}</span>
-              </div>
-              <div>
-                  <div class="slot-title">{{ slot.title }}</div>
-                  <img alt="{{slot.title}}"
-                       ng-hide="main.channel[slot.channelId][$index].min < 60"
-                       ng-src="https://hayabusa.io/abema/programs/{{slot.displayProgramId}}/thumb001.w136.h77.v1480900997.webp?width=136&amp;height=77">
-                <div class="slot-table-highlight">{{ slot.tableHighlight }}</div>
-              </div>
-              </a>
-              <!--<pre>-->
-              <!--{{ slot | json }}-->
-              <!--</pre>-->
+      <div class="inline-slots" ng-repeat="result in main.results"
+           ng-show="main.dispChannel[result[0].channelId]" style="width: 160px;">
+        <div>
+          <a ng-href="https://abema.tv/now-on-air/{{result[0].channelId}}" target="_blank"
+             name="{{result[0].channelId}}">
+            <div style="height: 34px; padding: 0 10px; background-color: #000; color: #fff; display: inline-block;">
+              <img ng-src="https://hayabusa.io/abema/channels/logo/{{result[0].channelId}}.w80.h30.webp?width=80&height=30"
+                   alt="{{result[0].channelId}}">
+              <!--<span class="h4">{{ result[0].channelId }}</span>-->
             </div>
+          </a>
+        </div>
+        <div class="table table-hover table-striped"
+             style="background-color: #eee;">
+          <div class="slot-box"
+               ng-repeat="slot in result"
+               ng-style="main.channel[slot.channelId][$index]"
+               ng-class="{danger: main.isNowOnAir(slot.startAt, slot.endAt)}">
+            <!--ng-style="{backgroundColor: slot.programs[0].series.themeColor.background}">-->
+            <a ng-href="https://abema.tv/channels/{{result[0].channelId}}/slots/{{slot.id}}"
+               target="_blank" title="{{slot.title}}" style="text-decoration: none;">
+
+            <div style="margin-left: 2px; color: #6fb900; font-size: 12px; font-family: Helvetica">
+              <span>{{ main.channel[slot.channelId][$index].mm }}</span>
+            </div>
+            <div>
+                <div class="slot-title">{{ slot.title }}</div>
+                <img alt="{{slot.title}}"
+                     ng-hide="main.channel[slot.channelId][$index].min < 60"
+                     ng-src="https://hayabusa.io/abema/programs/{{slot.displayProgramId}}/thumb001.w136.h77.v1480900997.webp?width=136&amp;height=77">
+              <div class="slot-table-highlight">{{ slot.tableHighlight }}</div>
+            </div>
+            </a>
+            <!--<pre>-->
+            <!--{{ slot | json }}-->
+            <!--</pre>-->
           </div>
         </div>
       </div>

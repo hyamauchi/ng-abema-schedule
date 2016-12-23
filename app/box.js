@@ -1,16 +1,30 @@
-angular.module('myApp', ["ui.bootstrap"])
-  .controller('SimpleController', ['$http', function ($http) {
+angular.module('myApp', ['ui.bootstrap', 'ngStorage'])
+  .controller('SimpleController', ['$http', '$localStorage', function ($http, $localStorage) {
 
     var that = this;
+    that.$storage = $localStorage.$default({
+      favorites: ['abema-news']
+    });
 
     that.channel = {};
-
-    that.current_channel = 'abema-news';
-    that.target_date = new Date();
-
-    that.switchChannel = function (key) {
-      that.current_channel = key;
+    that.dispChannel = {};
+    that.checkAll = function (bool) {
+      for (var target in that.dispChannel) {
+        that.dispChannel[target] = bool;
+      }
+      that.saveFavorites();
     };
+    that.saveFavorites = function () {
+      var favorites = [];
+      for (var target in that.dispChannel) {
+        if (that.dispChannel[target]) {
+          favorites.push(target);
+        }
+      }
+      that.$storage.favorites = favorites;
+    };
+
+    that.target_date = new Date();
 
     that.getDateStringFromUnixTimeSeconds = function (unixTimeSeconds, format) {
       return that.getDateString(new Date(unixTimeSeconds * 1000), format);
@@ -65,7 +79,13 @@ angular.module('myApp', ["ui.bootstrap"])
         that.keys = Object.keys(data);
         that.keys.forEach(function (key) {
           that.channel[key] = [];
+          if (that.$storage.favorites.indexOf(key) >= 0) {
+            that.dispChannel[key] = true;
+          } else {
+            that.dispChannel[key] = false;
+          }
         });
+
 
         that.results = Object.values(data);
 
