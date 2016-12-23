@@ -12,7 +12,7 @@
   <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.3.1/ui-bootstrap-tpls.min.js"></script>
   <script src="simple.js"></script>
 </head>
-<body>
+<body style="background-color: black;">
 <div ng-controller="SimpleController as main">
 
   <nav class="navbar navbar-fixed-top" role="navigation">
@@ -40,7 +40,7 @@
               </div>
             </a>
           </h2>
-          <table class="table table-bordered table-hover table-striped">
+          <table class="table table-bordered table-hover table-striped" style="background-color: white;">
             <tr ng-repeat="slot in result"
                 ng-class="{danger: main.isNowOnAir(slot.startAt, slot.endAt)}"
                 ng-hide="main.isPast(slot.endAt)">
