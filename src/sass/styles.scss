@@ -1,0 +1,36 @@
+// Variables
+$font-size-base: 12px;
+$line-height-computed: 1.4;
+$lines-to-show: 3;
+
+// Reset
+.slot-table-highlight {
+  margin: 2px;
+}
+
+// Multiline text with ellipsis
+// Supported IE and Firefox
+.slot-box {
+  overflow: hidden;
+  width: 100%;
+  .slot-table-highlight {
+    font-size: $font-size-base;
+    height: $font-size-base * $line-height-computed * $lines-to-show;
+    line-height: $line-height-computed;
+    position: relative;
+    &:before,
+    &:after {
+      position: absolute;
+    }
+    &:before {
+      //content: "...";
+      top: $font-size-base * $line-height-computed * ($lines-to-show - 1);
+      right: 0;
+    }
+    &:after {
+      content: "";
+      height: 100%;
+      width: 100%;
+    }
+  }
+}

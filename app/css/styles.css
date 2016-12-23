@@ -1,0 +1,20 @@
+.slot-table-highlight {
+  margin: 2px; }
+
+.slot-box {
+  overflow: hidden;
+  width: 100%; }
+  .slot-box .slot-table-highlight {
+    font-size: 12px;
+    height: 50.4px;
+    line-height: 1.4;
+    position: relative; }
+    .slot-box .slot-table-highlight:before, .slot-box .slot-table-highlight:after {
+      position: absolute; }
+    .slot-box .slot-table-highlight:before {
+      top: 33.6px;
+      right: 0; }
+    .slot-box .slot-table-highlight:after {
+      content: "";
+      height: 100%;
+      width: 100%; }
