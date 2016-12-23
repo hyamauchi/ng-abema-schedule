@@ -60,11 +60,10 @@ angular.module('myApp', ["ui.bootstrap"])
 
     that.doSearch = function () {
       var yyyyMMdd = that.getDateString(that.target_date, 'yyyyMMdd');
-      var url = 'http://localhost:63342/ng-abema-schedule/testdata/examples.json';
 
       $http({
         method: 'GET',
-        url: url
+        url: ngAbemaSchedule.getUrl(yyyyMMdd)
       }).success(function (data, status, headers, config) {
         console.log(status);
         // console.log(data);

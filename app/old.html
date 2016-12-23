@@ -13,6 +13,7 @@
   <!-- 日本語ロケールをロードしておくことでカレンダーの曜日表示が日本語になる -->
   <script src="//cdnjs.cloudflare.com/ajax/libs/angular-i18n/1.5.8/angular-locale_ja-jp.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.3.1/ui-bootstrap-tpls.min.js"></script>
+  <script src="scripts/ng-abema-schedule.js"></script>
   <script src="scripts/old.js"></script>
 </head>
 <body>
@@ -62,7 +63,7 @@
             <div style="height: 34px; padding: 0 10px; background-color: #000; color: #fff; display: inline-block;">
             <img ng-src="https://hayabusa.io/abema/channels/logo/{{result[0].channelId}}.w80.h30.webp?width=80&height=30"
                  alt="{{result[0].channelId}}">
-              {{ result[0].channelId }}
+              <span class="h4">{{ result[0].channelId }}</span>
             </div>
           </a>
         </h2>
