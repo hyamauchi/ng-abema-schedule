@@ -1,4 +1,4 @@
-angular.module('myApp', ["ui.bootstrap"])
+angular.module('myApp', ["ui.bootstrap", 'ngTouch'])
   .controller('SlideController', ['$http', function ($http) {
 
     var that = this;

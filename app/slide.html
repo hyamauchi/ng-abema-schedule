@@ -9,6 +9,7 @@
   <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
   <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
   <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-touch.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.3.1/ui-bootstrap-tpls.min.js"></script>
   <script src="slide.js"></script>
   <link rel="stylesheet" href="carousel.css">
@@ -28,7 +29,7 @@
   </nav>
 
   <div class="container" style="padding-top: 30px;" ng-show="main.results.length">
-    <div uib-carousel active="main.current_slide">
+    <div uib-carousel active="main.current_slide" template-url="carousel.html">
       <div uib-slide ng-repeat="result in main.results" index="$index">
         <div ng-show="result.length">
           <h2>
@@ -77,6 +78,27 @@
   <!--<pre>-->
     <!--{{ main.results | json }}-->
   <!--</pre>-->
+
+  <script type="text/ng-template" id="carousel.html">
+    <div class="carousel-inner"
+         ng-swipe-left="next()"
+         ng-swipe-right="prev()"
+         ng-transclude></div>
+    <a role="button" href class="left carousel-control" ng-click="prev()" ng-class="{ disabled: isPrevDisabled() }" ng-show="slides.length > 1">
+      <span aria-hidden="true" class="glyphicon glyphicon-chevron-left"></span>
+      <span class="sr-only">previous</span>
+    </a>
+    <a role="button" href class="right carousel-control" ng-click="next()" ng-class="{ disabled: isNextDisabled() }" ng-show="slides.length > 1">
+      <span aria-hidden="true" class="glyphicon glyphicon-chevron-right"></span>
+      <span class="sr-only">next</span>
+    </a>
+    <ol class="carousel-indicators" ng-show="slides.length > 1">
+      <li ng-repeat="slide in slides | orderBy:indexOfSlide track by $index" ng-class="{ active: isActive(slide) }" ng-click="select(slide)">
+        <span class="sr-only">slide {{ $index + 1 }} of {{ slides.length }}<span ng-if="isActive(slide)">, currently active</span></span>
+      </li>
+    </ol>
+  </script>
+
 </div>
 </body>
 </html>
