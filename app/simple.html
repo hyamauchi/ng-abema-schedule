@@ -20,7 +20,7 @@
       <ul class="list-inline">
         <li ng-repeat="key in main.keys">
           <span style="cursor: pointer;" class="label label-primary"
-                ng-click="main.current_channel = key">{{key}}</span>
+                ng-click="main.switchChannel(key)">{{key}}</span>
         </li>
       </ul>
     </div>
@@ -42,7 +42,8 @@
           </h2>
           <table class="table table-bordered table-hover table-striped">
             <tr ng-repeat="slot in result"
-                ng-class="{danger: main.isNowOnAir(slot.startAt, slot.endAt)}">
+                ng-class="{danger: main.isNowOnAir(slot.startAt, slot.endAt)}"
+                ng-hide="main.isPast(slot.endAt)">
               <!--ng-style="{backgroundColor: slot.programs[0].series.themeColor.background}">-->
               <td>
                 <strong>{{ main.dispStartAt(result[0].startAt, slot.startAt) }}</strong>

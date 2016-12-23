@@ -8,6 +8,10 @@ angular.module('myApp', ["ui.bootstrap"])
     that.current_channel = 'drama';
     that.target_date = new Date();
 
+    that.switchChannel = function (key) {
+      that.current_channel = key;
+    };
+
     that.getDateStringFromUnixTimeSeconds = function (unixTimeSeconds, format) {
       return that.getDateString(new Date(unixTimeSeconds * 1000), format);
     };
@@ -39,6 +43,12 @@ angular.module('myApp', ["ui.bootstrap"])
       var end = new Date(endAt * 1000);
       var now = new Date();
       return (now >= start && now <= end);
+    };
+
+    that.isPast = function (endAt) {
+      var end = new Date(endAt * 1000);
+      var now = new Date();
+      return (now > end);
     };
 
     that.doSearch = function () {
