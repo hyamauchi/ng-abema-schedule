@@ -44,3 +44,16 @@
 .slotBoxNowonair {
     background-color: #f2dede;
 }
+
+button {
+    font-family: 'Noto Sans Japanese', "Helvetica Neue", Helvetica, 'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', 'メイリオ', Meiryo, 'ＭＳ Ｐゴシック', Verdana, sans-serif;
+}
+
+.channel-header-img {
+    height: 34px;
+    /*padding: 0 10px;*/
+    padding: 0 0 0 35px;
+    background-color: #000;
+    color: #fff;
+    display: inline-block;
+}

@@ -1,23 +1,10 @@
 angular.module('myApp', ['ui.bootstrap', 'ngStorage'])
-  .config(['$localStorageProvider',
-    function ($localStorageProvider) {
-      $localStorageProvider.setKeyPrefix('Abema-');
-    }])
-  .controller('SimpleController',
-      ['$http', '$interval', '$localStorage', function ($http, $interval, $localStorage) {
+  .controller('SimpleController', ['$http', '$localStorage', function ($http, $localStorage) {
 
     var that = this;
     that.$storage = $localStorage.$default({
       favorites: ['abema-news']
     });
-
-    that.Now = new Date();
-    function uptoDate() {
-      that.Now = new Date();
-      var timeString = that.Now.toLocaleTimeString();
-      that.TimeString = timeString.substr(0, timeString.length - 3);
-    }
-    var t = $interval(uptoDate, 1000 * 60);
 
     that.channel = {};
     that.dispChannel = {};
@@ -60,11 +47,22 @@ angular.module('myApp', ['ui.bootstrap', 'ngStorage'])
       return result;
     };
 
+    that.dispStartAt = function (firstStartAt, curStartAt) {
+      var fmt = firstStartAt == curStartAt ? 'M/d h:mm' : 'h:mm';
+      return that.getDateStringFromUnixTimeSeconds(curStartAt, fmt);
+    };
+
     that.isNowOnAir = function (startAt, endAt) {
       var start = new Date(startAt * 1000);
       var end = new Date(endAt * 1000);
-      var now = that.Now;
+      var now = new Date();
       return (now >= start && now <= end);
+    };
+
+    that.isPast = function (endAt) {
+      var end = new Date(endAt * 1000);
+      var now = new Date();
+      return (now > end);
     };
 
     that.doSearch = function () {
@@ -90,16 +88,6 @@ angular.module('myApp', ['ui.bootstrap', 'ngStorage'])
 
         that.results = Object.values(data);
 
-        uptoDate();
-        that.target_date = new Date();
-        that.target_hour = that.target_date.getHours();
-        that.target_date.setHours(that.target_hour, 0, 0, 0, 0);
-        var hours = [];
-        for (i = 0; i < 24; i++) {
-          if (that.target_hour <= i) hours.push(i);
-        }
-        that.hours = hours;
-
         that.results.forEach(function (result) {
           for (var i = 0; i < result.length; i++) {
             var slot = result[i];
@@ -110,24 +98,20 @@ angular.module('myApp', ['ui.bootstrap', 'ngStorage'])
             var end = new Date(slot.endAt * 1000);
             var min = (end - start) / 1000 / 60;
 
-            var disp = end.getTime() < that.target_date.getTime() ? false : true;
-            var first = false;
-
-            // var d1 = new Date(start);
+            var d1 = new Date(start);
             var d2 = new Date(that.target_date);
             var d3 = new Date(end);
             var tomorrow = new Date(that.target_date);
 
-            // d1.setHours(0, 0, 0, 0, 0);
-            d2.setHours(that.target_hour, 0, 0, 0, 0);
-            d3.setHours(that.target_hour, 0, 0, 0, 0);
+            d1.setHours(0, 0, 0, 0, 0);
+            d2.setHours(0, 0, 0, 0, 0);
+            d3.setHours(0, 0, 0, 0, 0);
             tomorrow.setHours(0, 0, 0, 0, 0);
             tomorrow.setDate(tomorrow.getDate()+1);
 
-            if (start.getTime() < d2.getTime()) {
+            if (d1.getTime() != d2.getTime()) {
               min = (end - d2) / 1000 / 60;
               mm = '00';
-              first = disp;
             }
             if (d2.getTime() != d3.getTime()) {
               min = (tomorrow - start) / 1000 / 60;
@@ -141,7 +125,7 @@ angular.module('myApp', ['ui.bootstrap', 'ngStorage'])
             if (after < 0) after = 0;
 
             var prev = d2;
-            if (!first && i > 0) {
+            if (i > 0) {
               prev = new Date(result[i - 1].endAt * 1000);
             }
             var before = (start - prev) / 1000 / 60;
@@ -152,9 +136,7 @@ angular.module('myApp', ['ui.bootstrap', 'ngStorage'])
               height: min * 3 + 'px',
               marginBottom: after * 3 + 'px',
               marginTop: before * 3 + 'px',
-              mm: mm,
-              disp: disp,
-              first: first
+              mm: mm
             };
           }
         });
