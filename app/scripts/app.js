@@ -68,19 +68,33 @@ angular.module('myApp', ['ui.bootstrap', 'ngStorage'])
     };
 
     that.dispTime = function () {
+
       var time = new Date();
+      var hour = time.getHours();
+
       var el = document.createElement('div');
       el.textContent = that.getDateString(time, 'h:mm');
       el.classList.add('disp-time');
 
       // el.style.top = getRandPer() + '%';
       var min = time.getMinutes();
-      el.style.top = 70 + min * 3 + 'px';
+      var top = 70 + (hour - that.target_hour) * 180 + min * 3;
+      el.style.top = top + 'px';
 
       document.body.appendChild(el);
       el.addEventListener("animationend", function callback(event) {
         document.body.removeChild(el);
         el.removeEventListener("animationend", callback);
+      }, false);
+
+      var el2 = document.createElement('hr');
+      el2.classList.add('disp-time-hr');
+      el2.style.top = top - 10 + 'px';
+
+      document.body.appendChild(el2);
+      el2.addEventListener("animationend", function callback(event) {
+        document.body.removeChild(el2);
+        el2.removeEventListener("animationend", callback);
       }, false);
     };
 
