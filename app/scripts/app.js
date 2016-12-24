@@ -3,7 +3,7 @@ angular.module('myApp', ['ui.bootstrap', 'ngStorage'])
     function ($localStorageProvider) {
       $localStorageProvider.setKeyPrefix('Abema-');
     }])
-  .controller('SimpleController',
+  .controller('MainController',
       ['$http', '$interval', '$localStorage', function ($http, $interval, $localStorage) {
 
     var that = this;
@@ -67,6 +67,23 @@ angular.module('myApp', ['ui.bootstrap', 'ngStorage'])
       return (now >= start && now <= end);
     };
 
+    that.dispTime = function () {
+      var time = new Date();
+      var el = document.createElement('div');
+      el.textContent = that.getDateString(time, 'h:mm');
+      el.classList.add('disp-time');
+
+      // el.style.top = getRandPer() + '%';
+      var min = time.getMinutes();
+      el.style.top = 70 + min * 3 + 'px';
+
+      document.body.appendChild(el);
+      el.addEventListener("animationend", function callback(event) {
+        document.body.removeChild(el);
+        el.removeEventListener("animationend", callback);
+      }, false);
+    };
+
     that.doSearch = function () {
       var yyyyMMdd = that.getDateString(that.target_date, 'yyyyMMdd');
 
@@ -125,13 +142,16 @@ angular.module('myApp', ['ui.bootstrap', 'ngStorage'])
             tomorrow.setDate(tomorrow.getDate()+1);
 
             if (start.getTime() < d2.getTime()) {
-              min = (end - d2) / 1000 / 60;
+              var work = (end.getTime() > tomorrow.getTime()) ? tomorrow : end;
+              min = (work - d2) / 1000 / 60;
               mm = '00';
               first = disp;
             }
             if (d2.getTime() != d3.getTime()) {
-              min = (tomorrow - start) / 1000 / 60;
+              var work = (start.getTime() < d2.getTime()) ? d2 : start;
+              min = (tomorrow - work) / 1000 / 60;
             }
+            if (min < 0) min = 0;
 
             var next = tomorrow;
             if (i + 1 < result.length) {
@@ -158,6 +178,8 @@ angular.module('myApp', ['ui.bootstrap', 'ngStorage'])
             };
           }
         });
+
+        that.dispTime();
 
       }).error(function (data, status, headers, config) {
         console.log(status);

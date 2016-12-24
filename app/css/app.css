@@ -1,3 +1,7 @@
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+    display: none !important;
+}
+
 .parent-slots {
     overflow-x: auto;
     /*overflow-y: hidden;*/
@@ -56,4 +60,47 @@ button {
     background-color: #000;
     color: #fff;
     display: inline-block;
+}
+
+.disp-time {
+    background-color: #d9534f;
+    display: inline;
+    padding: .2em .6em .3em;
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .25em;
+
+    position: absolute;
+    left: 100%;
+    top: 0;
+    z-index: 10;
+    white-space: nowrap;
+    font-size: 2rem;
+    -webkit-animation-name: dispTimeAnim;
+    animation-name: dispTimeAnim;
+    -webkit-animation-duration: 1.6s;
+    animation-duration: 1.6s;
+    -webkit-animation-timing-function: ease-in-out;
+    animation-timing-function: ease-in-out;
+}
+
+@-webkit-keyframes dispTimeAnim {
+    0% {
+        left: 1%;
+    }
+    100% {
+        left: 2%;
+    }
+}
+@keyframes dispTimeAnim {
+    0% {
+        left: 1%;
+    }
+    100% {
+        left: 2%;
+    }
 }

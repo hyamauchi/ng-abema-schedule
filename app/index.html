@@ -17,9 +17,9 @@
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body style="background-color: black;">
-<div ng-controller="SimpleController as main">
+<div ng-controller="MainController as main">
 
-  <nav class="navbar navbar-fixed-top" role="navigation">
+  <nav class="navbar navbar-fixed-top" role="navigation" ng-show="main.keys.length">
     <div ng-init="main.doSearch()">
       <div data-toggle="buttons">
         <label ng-repeat="key in main.keys"
@@ -30,7 +30,7 @@
         </label>
         <button type="button" class="btn btn-primary btn-xs" ng-click="main.checkAll(true)">全てを選択</button>
         <button type="button" class="btn btn-warning btn-xs" ng-click="main.checkAll(false)">全てを解除</button>
-        <strong style="color:white;">{{main.TimeString}}</strong>
+        <strong class="time-string" style="display: none;">{{main.TimeString}}</strong>
       </div>
     </div>
   </nav>
@@ -40,7 +40,7 @@
       <div class="inline-slots" style="width: 20px;">
         <div style="height: 34px;"></div>
         <div class="hour-box" ng-repeat="hour in main.hours">
-          <strong>{{hour}}</strong>
+          <strong class="hour" ng-class="hour-{{hour}}">{{hour}}</strong>
         </div>
       </div>
 
