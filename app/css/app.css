@@ -2,6 +2,24 @@
     display: none !important;
 }
 
+/* FOUNDATION START */
+
+html{
+    -webkit-text-size-adjust:100%;
+    -ms-text-size-adjust:100%
+}
+body{
+    /* font-family:"游ゴシック",YuGothic,"ヒラギノ角ゴ ProN W3","Hiragino Kaku Gothic ProN","メイリオ",Meiryo,Arial,sans-serif; */
+    font-family: 'Noto Sans Japanese', "Helvetica Neue", Helvetica, 'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', 'メイリオ', Meiryo, 'ＭＳ Ｐゴシック', Verdana, sans-serif;
+    font-size: 14px;
+    color: #676F7D;
+    margin: 0;
+    line-height: 1.6;
+    background-size: 16px 16px;
+}
+
+/* FOUNDATION END */
+
 .parent-slots {
     overflow-x: auto;
     /*overflow-y: hidden;*/
@@ -26,14 +44,16 @@
 }
 
 .slot-box {
-    border-bottom: 1px solid silver;
+    /*display: table;*/
+    /*display: inline-table;*/
+    /*border-collapse: collapse;*/
     border-right: 1px solid silver;
+    border-bottom: 1px solid silver;
 }
 
 .slot-title {
     margin-left: 2px;
     color: black;
-    font-family: 'Noto Sans Japanese', "Helvetica Neue", Helvetica, 'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', 'メイリオ', Meiryo, 'ＭＳ Ｐゴシック', Verdana, sans-serif;
     font-size: 12px;
     font-weight: bold;
 }
@@ -41,16 +61,11 @@
 .slot-table-highlight {
     margin-left: 2px;
     color: black;
-    font-family: 'Noto Sans Japanese', "Helvetica Neue", Helvetica, 'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', 'メイリオ', Meiryo, 'ＭＳ Ｐゴシック', Verdana, sans-serif;
     font-size: 12px;
 }
 
 .slotBoxNowonair {
     background-color: #f2dede;
-}
-
-button {
-    font-family: 'Noto Sans Japanese', "Helvetica Neue", Helvetica, 'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', 'メイリオ', Meiryo, 'ＭＳ Ｐゴシック', Verdana, sans-serif;
 }
 
 .channel-header-img {
@@ -60,6 +75,17 @@ button {
     background-color: #000;
     color: #fff;
     display: inline-block;
+}
+
+.goto-next-date {
+    display: block;
+    margin: -10px 0 0px 45vw;
+}
+
+.goto-next-date a.btn {
+    background-color: darkgray;
+    color: white;
+    font-weight: bold;
 }
 
 .disp-time {
