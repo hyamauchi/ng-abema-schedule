@@ -137,6 +137,7 @@ angular.module('myApp.top', ['ngRoute', 'ui.bootstrap', 'ngStorage'])
 
         uptoDate();
 
+        that.target_hour = 17;
         that.target_date.setHours(that.target_hour, 0, 0, 0, 0);
         var hours = [];
         for (i = 0; i < 24; i++) {
@@ -148,6 +149,10 @@ angular.module('myApp.top', ['ngRoute', 'ui.bootstrap', 'ngStorage'])
           for (var i = 0; i < result.length; i++) {
             var slot = result[i];
             var key = slot.channelId;
+
+            if (slot.tableHighlight.startsWith("BLUE")) {
+              var foo = slot.title;
+            }
 
             var mm = that.getDateStringFromUnixTimeSeconds(slot.startAt, 'mm');
             var start = new Date(slot.startAt * 1000);
@@ -191,6 +196,7 @@ angular.module('myApp.top', ['ngRoute', 'ui.bootstrap', 'ngStorage'])
             var prev = d2;
             if (!first && i > 0) {
               prev = new Date(result[i - 1].endAt * 1000);
+              if (prev.getTime() < d2.getTime()) prev = d2;
             }
             var before = (start - prev) / 1000 / 60;
             if (before < 0) before = 0;
