@@ -191,6 +191,7 @@ angular.module('myApp.top', ['ngRoute', 'ui.bootstrap', 'ngStorage'])
             var prev = d2;
             if (!first && i > 0) {
               prev = new Date(result[i - 1].endAt * 1000);
+              if (prev.getTime() < d2.getTime()) prev = d2;
             }
             var before = (start - prev) / 1000 / 60;
             if (before < 0) before = 0;
